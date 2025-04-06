@@ -59,3 +59,11 @@ GROUP BY s.customer_id;
 -- How many days has each customer visited the restaurant?
 SELECT customer_id, COUNT(DISTINCT(order_date)) visit_count FROM sales 
 GROUP BY customer_id;
+
+-- What was the first item from the menu purchased by each customer?
+
+
+-- What is the most purchased item on the menu and how many times was it purchased by all customers?
+SELECT m.product_name, ms.purchase_count times_purchased FROM 
+menu m JOIN (SELECT product_id, COUNT(product_id) purchase_count FROM sales GROUP BY product_id ORDER BY purchase_count DESC LIMIT 1) ms 
+ON m.product_id = ms.product_id
