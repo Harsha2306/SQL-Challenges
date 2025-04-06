@@ -52,3 +52,6 @@ INSERT INTO members (customer_id, join_date) VALUES
   ('B', '2021-01-09');
 
 -- What is the total amount each customer spent at the restaurant?
+SELECT s.customer_id, SUM(m.price) total_amount 
+FROM sales s JOIN menu m ON s.product_id = m.product_id 
+GROUP BY s.customer_id;
