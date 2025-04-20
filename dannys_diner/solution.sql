@@ -66,4 +66,14 @@ GROUP BY customer_id;
 -- What is the most purchased item on the menu and how many times was it purchased by all customers?
 SELECT m.product_name, ms.purchase_count times_purchased FROM 
 menu m JOIN (SELECT product_id, COUNT(product_id) purchase_count FROM sales GROUP BY product_id ORDER BY purchase_count DESC LIMIT 1) ms 
-ON m.product_id = ms.product_id
+ON m.product_id = ms.product_id;
+
+-- Which item was the most popular for each customer?
+SELECT customer_id, product_id, total AS popular_item
+FROM (
+    SELECT customer_id, product_id, COUNT(*) AS total,
+           RANK() OVER (PARTITION BY customer_id ORDER BY COUNT(*) DESC) AS rnk
+    FROM sales
+    GROUP BY customer_id, product_id
+) t
+WHERE rnk = 1;
