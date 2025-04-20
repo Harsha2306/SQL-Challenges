@@ -61,7 +61,12 @@ SELECT customer_id, COUNT(DISTINCT(order_date)) visit_count FROM sales
 GROUP BY customer_id;
 
 -- What was the first item from the menu purchased by each customer?
-
+SELECT t1.customer_id, t1.order_date, t1.product_id FROM 
+(SELECT customer_id, order_date, product_id,
+DENSE_RANK() OVER(PARTITION BY customer_id ORDER BY order_date) first_product
+FROM sales
+) t1
+WHERE t1.first_product = 1;
 
 -- What is the most purchased item on the menu and how many times was it purchased by all customers?
 SELECT m.product_name, ms.purchase_count times_purchased FROM 
