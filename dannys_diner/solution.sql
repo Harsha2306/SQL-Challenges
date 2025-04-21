@@ -82,3 +82,15 @@ FROM (
     GROUP BY customer_id, product_id
 ) t
 WHERE rnk = 1;
+
+-- Which item was purchased first by the customer after they became a member?
+SELECT customer_id, order_date, join_date, product_id
+FROM (
+SELECT s.customer_id, s.order_date, m.join_date, s.product_id, 
+RANK() OVER(PARTITION BY s.customer_id ORDER BY s.order_date) rnk
+FROM sales s
+JOIN members m
+ON s.customer_id = m.customer_id
+WHERE s.order_date >= m.join_date
+) t
+WHERE rnk = 1;
