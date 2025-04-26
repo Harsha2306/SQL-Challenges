@@ -205,3 +205,10 @@ from cust_orders c
 join runner_orders_post r on c.order_id = r.order_id 
 where r.cancellation is null
 ) t group by customer_id;
+
+-- How many pizzas were delivered that had both exclusions and extras?
+select count(*) delivered_pizzas_with_exclusions_and_extras 
+from cust_orders c join runner_orders_post r 
+on c.order_id = r.order_id
+where r.cancellation is null and exclusions_cleaned is not null and extras_cleaned is not null
+order by pizza_id;
