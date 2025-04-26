@@ -181,4 +181,12 @@ group by runner_id;
 select pizza_id, count(*) delivered from cust_orders c
 join runner_orders_post r on c.order_id = r.order_id
 where cancellation is null
-group by pizza_id
+group by pizza_id;
+
+-- How many Vegetarian and Meatlovers were ordered by each customer?
+
+-- What was the maximum number of pizzas delivered in a single order?
+select order_id, count(*) max_orders from cust_orders
+group by order_id
+order by max_orders desc
+limit 1;
