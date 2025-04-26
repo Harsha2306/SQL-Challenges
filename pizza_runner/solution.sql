@@ -166,5 +166,13 @@ CREATE TABLE runner_orders_post
     FROM runner_orders_pre;
     
 -- How many pizzas were ordered?
-use pizza_runner;
 select count(*) pizzas_ordered from cust_orders;
+
+-- How many unique customer orders were made?
+select count(distinct order_id, customer_id) unique_orders from cust_orders;
+
+-- How many successful orders were delivered by each runner?
+select runner_id, count(*) successful_orders 
+from runner_orders_post 
+where cancellation is null 
+group by runner_id;
