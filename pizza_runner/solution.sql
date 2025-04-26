@@ -212,3 +212,9 @@ from cust_orders c join runner_orders_post r
 on c.order_id = r.order_id
 where r.cancellation is null and exclusions_cleaned is not null and extras_cleaned is not null
 order by pizza_id;
+
+-- What was the total volume of pizzas ordered for each hour of the day?
+select hour(order_time) hr, count(*) ordered 
+from cust_orders
+group by hour(order_time)
+order by hr;
