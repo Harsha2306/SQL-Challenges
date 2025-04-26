@@ -190,3 +190,18 @@ select order_id, count(*) max_orders from cust_orders
 group by order_id
 order by max_orders desc
 limit 1;
+
+-- For each customer, how many delivered pizzas had at least 1 change and how many had no changes?
+select customer_id, sum(no_changes) total_pizzas_without_changes, sum(at_least_one_change) total_pizzas_with_changes
+from (
+select c.customer_id, 
+case when c.exclusions_cleaned is null and c.extras_cleaned is null then 1
+else 0
+end no_changes,
+case when c.exclusions_cleaned is not null or c.extras_cleaned is not null then 1
+else 0
+end at_least_one_change
+from cust_orders c
+join runner_orders_post r on c.order_id = r.order_id 
+where r.cancellation is null
+) t group by customer_id;
