@@ -176,3 +176,9 @@ select runner_id, count(*) successful_orders
 from runner_orders_post 
 where cancellation is null 
 group by runner_id;
+
+-- How many of each type of pizza was delivered?
+select pizza_id, count(*) delivered from cust_orders c
+join runner_orders_post r on c.order_id = r.order_id
+where cancellation is null
+group by pizza_id
