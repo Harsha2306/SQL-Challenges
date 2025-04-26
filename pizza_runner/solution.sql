@@ -218,3 +218,9 @@ select hour(order_time) hr, count(*) ordered
 from cust_orders
 group by hour(order_time)
 order by hr;
+
+-- What was the volume of orders for each day of the week?
+select week(order_time) wk, count(*) ordered 
+from cust_orders
+group by week(order_time)
+order by wk;
